@@ -26,5 +26,8 @@
     <ClCompile Include="TicTacToeHeader.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

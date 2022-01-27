@@ -65,6 +65,16 @@ class Game {
 		int MinimumSquares();
 
 		/**
+		 * @return Current Width.
+		*/
+		int GetWidth();
+
+		/**
+		 * @return Current Height.
+		*/
+		int GetHeight();
+
+		/**
 		* @return Player, who is playing next round.
 		*/
 		Player NextPlayer();
@@ -76,4 +86,11 @@ class Game {
 		* @return Enum value of the Player, who won, otherwise NONE.
 		*/
 		Player PlayRound(int row, int column);
+
+		/**
+		 * @param row The row of the square.
+		 * @param column The column of the square.
+		 * @return The player occupying the square, if empty then NONE.
+		*/
+		Player GetSquare(int row, int column);
 };

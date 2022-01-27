@@ -16,6 +16,7 @@ Game::Game()
 void Game::NewGame()
 {
 	this->current = CROSS;
+	this->game.clear();
 	this->game.resize(this->grid.second, std::vector<Player>(this->grid.first, NONE));
 }
 
@@ -39,7 +40,7 @@ bool Game::ChangeWidth(int width)
 
 bool Game::ChangeMinimum(int minimum)
 {
-	if (minimum < this->grid.first && minimum < this->grid.second)
+	if (minimum > this->grid.first && minimum > this->grid.second)
 		return false;
 
 	this->to_win = minimum;
@@ -63,6 +64,16 @@ int Game::MinimumSquares()
 	return std::min(MinimumHeight(), MinimumWidth());
 }
 
+int Game::GetWidth()
+{
+	return this->game[0].size();
+}
+
+int Game::GetHeight()
+{
+	return this->game.size();
+}
+
 Player Game::NextPlayer()
 {
 	return this->current;
@@ -70,6 +81,12 @@ Player Game::NextPlayer()
 
 Player Game::PlayRound(int row, int column)
 {
+	if (row < 0 || row >= this->game.size() || column < 0 || column >= this->game[0].size())
+		return NONE;
+
+	if (this->game[row][column] != NONE)
+		return NONE;
+
 	this->game[row][column] = this->current;
 
 	// logic is primitive and no optimizations are done, for demonstration purposes only
@@ -83,7 +100,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y][x + i] != this->game[y][x + i - 1])
+					if (this->game[y][x + i] != this->game[y][x + i - 1] || this->game[y][x + i] == NONE)
 						won = false;
 				if (won)
 					break;
@@ -94,7 +111,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y + i][x] != this->game[y + i - 1][x])
+					if (this->game[y + i][x] != this->game[y + i - 1][x] || this->game[y + i][x] == NONE)
 						won = false;
 				if (won)
 					break;
@@ -105,7 +122,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y - i][x - i] != this->game[y - i + 1][x - i + 1])
+					if (this->game[y - i][x - i] != this->game[y - i + 1][x - i + 1] || this->game[y - i][x - i] == NONE)
 						won = false;
 				if (won)
 					break;
@@ -116,7 +133,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y + i][x + i] != this->game[y + i - 1][x + i - 1])
+					if (this->game[y + i][x + i] != this->game[y + i - 1][x + i - 1] || this->game[y + i][x + i] == NONE)
 						won = false;
 				if (won)
 					break;
@@ -133,4 +150,12 @@ Player Game::PlayRound(int row, int column)
 	this->current = this->current == CROSS ? NOUGHT : CROSS;
 
 	return NONE;
+}
+
+Player Game::GetSquare(int row, int column)
+{
+	if (row < 0 || row >= this->game.size() || column < 0 || column >= this->game[0].size())
+		return NONE;
+
+	return this->game[row][column];
 }
