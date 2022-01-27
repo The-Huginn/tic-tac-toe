@@ -72,9 +72,22 @@ int main()
 		while (std::getline(ss, word, ' '))
 			words.push_back(word);
 
-		if (words.size() == 1 && words.back().compare("n") == 0)
-			tictactoe.NewGame();
+		if (words.size() == 1)
+		{
+			switch (words.back()[0])
+			{
+			case 'n':
+				tictactoe.NewGame();
+				break;
 
+			case 't':
+				playing = false;
+				break;
+
+			default:
+				break;
+			}
+		}
 		if (words.size() == 2)
 		{
 			// We test if first string is number
