@@ -7,57 +7,73 @@
 * @author Rastislav Budinsky
 */
 #include "Players.h"
+#include <utility>
+#include <vector>
 
-/**
-* @brief Creates new game of size and squares defined previously, default size is 3x3 and minimum connected squares is 3.
-*/
-void NewGame();
+class Game {
+	private:
+		std::pair<int, int> grid;
+		int to_win;
+		std::vector<std::vector<Player>> game;
+		Player current;
 
-/**
-* @brief Changes the height of the grid for next games.
-* @param height New height,
-* @return True upon success otherwise called with incorrect value,
-*/
-bool ChangeHeight(int height);
+	public:
+		/**
+		 * @brief Constructor
+		*/
+		Game();
 
-/**
-* @brief Changes the width of the grid for next games.
-* @param width New width.
-* @return True upon success otherwise called with incorrect value.
-*/
-bool ChangeWidth(int width);
+		/**
+		* @brief Creates new game of size and squares defined previously, default size is 3x3 and minimum connected squares is 3.
+		*/
+		void NewGame();
 
-/**
-* @brief Changes the minimum required connected squares.
-* @param minimum New minimum.
-* @return True upon success otherwise called with incorrect value.
-*/
-bool ChangeMinimum(int minimum);
+		/**
+		* @brief Changes the height of the grid for next games.
+		* @param height New height,
+		* @return True upon success otherwise called with incorrect value,
+		*/
+		bool ChangeHeight(int height);
 
-/**
-* @return The minimum height.
-*/
-int MinimumHeight();
+		/**
+		* @brief Changes the width of the grid for next games.
+		* @param width New width.
+		* @return True upon success otherwise called with incorrect value.
+		*/
+		bool ChangeWidth(int width);
 
-/**
-* @return The minimum width.
-*/
-int MinimumWidth();
+		/**
+		* @brief Changes the minimum required connected squares.
+		* @param minimum New minimum.
+		* @return True upon success otherwise called with incorrect value.
+		*/
+		bool ChangeMinimum(int minimum);
 
-/**
-* @return The minimum required connected squares.
-*/
-int MinimumSquares();
+		/**
+		* @return The minimum height.
+		*/
+		int MinimumHeight();
 
-/**
-* @return Player, who is playing next round.
-*/
-Player NextPlayer();
+		/**
+		* @return The minimum width.
+		*/
+		int MinimumWidth();
 
-/**
-* @brief Proceeds one round in the Player, who was playing that round.
-* @param column The column of the square.
-* @param row The row of the square.
-* @return Enum value of the Player, who won, otherwise NONE.
-*/
-Player PlayRound(int column, int row);
+		/**
+		* @return The minimum required connected squares.
+		*/
+		int MinimumSquares();
+
+		/**
+		* @return Player, who is playing next round.
+		*/
+		Player NextPlayer();
+
+		/**
+		* @brief Proceeds one round in the Player, who was playing that round.
+		* @param row The row of the square.
+		* @param column The column of the square.
+		* @return Enum value of the Player, who won, otherwise NONE.
+		*/
+		Player PlayRound(int row, int column);
+};
