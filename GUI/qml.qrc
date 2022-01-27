@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Settings.qml</file>
+        <file>GameWindow.qml</file>
+        <file>images/cross.svg</file>
+        <file>images/nought.svg</file>
+        <file>images/none.svg</file>
+    </qresource>
+</RCC>
