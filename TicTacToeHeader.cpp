@@ -4,41 +4,46 @@
 * @author Rastislav Budinsky
 */
 #include "TicTacToeHeader.h"
-
-Game::Game()
+#include <QDebug>
+void Game::callMe(int i)
 {
-	this->current = CROSS;
+    qDebug() << "hello there " << i;
+}
+
+Game::Game(QObject *parent) : QObject(parent)
+{
+    this->current = PlayerClass::Player::CROSS;
 	this->grid = { 3, 3 };
 	this->to_win = 3;
-	this->game.resize(this->grid.second, std::vector<Player>(this->grid.first, NONE));
+    this->game.resize(this->grid.second, std::vector<PlayerClass::Player>(this->grid.first, PlayerClass::Player::NONE));
 }
 
-void Game::NewGame()
+void Game::newGame()
 {
-	this->current = CROSS;
+    this->current = PlayerClass::Player::CROSS;
 	this->game.clear();
-	this->game.resize(this->grid.second, std::vector<Player>(this->grid.first, NONE));
+    this->game.resize(this->grid.second, std::vector<PlayerClass::Player>(this->grid.first, PlayerClass::Player::NONE));
 }
 
-bool Game::ChangeHeight(int height)
+bool Game::changeHeight(int height)
 {
-	if (height < MinimumHeight())
+    if (height < minimumHeight())
 		return false;
 
 	this->grid.first = height;
 	return true;
 }
 
-bool Game::ChangeWidth(int width)
+bool Game::changeWidth(int width)
 {
-	if (width < MinimumWidth())
+    if (width < minimumWidth())
 		return false;
 
 	this->grid.second = width;
 	return true;
 }
 
-bool Game::ChangeMinimum(int minimum)
+bool Game::changeMinimum(int minimum)
 {
 	if (minimum > this->grid.first && minimum > this->grid.second)
 		return false;
@@ -47,45 +52,45 @@ bool Game::ChangeMinimum(int minimum)
 	return true;
 }
 
-int Game::MinimumHeight()
+int Game::minimumHeight()
 {
 	// Magic constant for height
 	return 3;
 }
 
-int Game::MinimumWidth()
+int Game::minimumWidth()
 {
 	// Magic constant for width
 	return 3;
 }
 
-int Game::MinimumSquares()
+int Game::minimumSquares()
 {
-	return std::min(MinimumHeight(), MinimumWidth());
+    return std::min(minimumHeight(), minimumWidth());
 }
 
-int Game::GetWidth()
+int Game::getWidth()
 {
 	return this->game[0].size();
 }
 
-int Game::GetHeight()
+int Game::getHeight()
 {
 	return this->game.size();
 }
 
-Player Game::NextPlayer()
+int Game::nextPlayer()
 {
 	return this->current;
 }
 
-Player Game::PlayRound(int row, int column)
+int Game::playRound(int row, int column)
 {
 	if (row < 0 || row >= this->game.size() || column < 0 || column >= this->game[0].size())
-		return NONE;
+        return PlayerClass::Player::NONE;
 
-	if (this->game[row][column] != NONE)
-		return NONE;
+    if (this->game[row][column] != PlayerClass::Player::NONE)
+        return PlayerClass::Player::NONE;
 
 	this->game[row][column] = this->current;
 
@@ -100,7 +105,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y][x + i] != this->game[y][x + i - 1] || this->game[y][x + i] == NONE)
+                    if (this->game[y][x + i] != this->game[y][x + i - 1] || this->game[y][x + i] == PlayerClass::Player::NONE)
 						won = false;
 				if (won)
 					break;
@@ -111,7 +116,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y + i][x] != this->game[y + i - 1][x] || this->game[y + i][x] == NONE)
+                    if (this->game[y + i][x] != this->game[y + i - 1][x] || this->game[y + i][x] == PlayerClass::Player::NONE)
 						won = false;
 				if (won)
 					break;
@@ -122,7 +127,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y - i][x - i] != this->game[y - i + 1][x - i + 1] || this->game[y - i][x - i] == NONE)
+                    if (this->game[y - i][x - i] != this->game[y - i + 1][x - i + 1] || this->game[y - i][x - i] == PlayerClass::Player::NONE)
 						won = false;
 				if (won)
 					break;
@@ -133,7 +138,7 @@ Player Game::PlayRound(int row, int column)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-					if (this->game[y + i][x + i] != this->game[y + i - 1][x + i - 1] || this->game[y + i][x + i] == NONE)
+                    if (this->game[y + i][x + i] != this->game[y + i - 1][x + i - 1] || this->game[y + i][x + i] == PlayerClass::Player::NONE)
 						won = false;
 				if (won)
 					break;
@@ -147,15 +152,15 @@ Player Game::PlayRound(int row, int column)
 	if (won)
 		return this->current;
 
-	this->current = this->current == CROSS ? NOUGHT : CROSS;
+    this->current = this->current == PlayerClass::Player::CROSS ? PlayerClass::Player::NOUGHT : PlayerClass::Player::CROSS;
 
-	return NONE;
+    return PlayerClass::Player::NONE;
 }
 
-Player Game::GetSquare(int row, int column)
+int Game::getSquare(int row, int column)
 {
 	if (row < 0 || row >= this->game.size() || column < 0 || column >= this->game[0].size())
-		return NONE;
+        return PlayerClass::Player::NONE;
 
 	return this->game[row][column];
 }

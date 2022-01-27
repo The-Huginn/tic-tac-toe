@@ -13,89 +13,96 @@
 #include <utility>
 #include <vector>
 
-class Game {
+#include <QObject>
+
+class Game : public QObject
+{
+    Q_OBJECT
 	private:
 		std::pair<int, int> grid;
 		int to_win;
-		std::vector<std::vector<Player>> game;
-		Player current;
+        std::vector<std::vector<PlayerClass::Player>> game;
+        PlayerClass::Player current;
+
+public slots:
+        void callMe(int);
 
 	public:
 		/**
 		 * @brief Constructor
 		*/
-		Game();
+        Q_INVOKABLE Game(QObject *parent = nullptr);
 
 		/**
 		* @brief Creates new game of size and squares defined previously, default size is 3x3 and minimum connected squares is 3.
 		*/
-		void NewGame();
+        Q_INVOKABLE void newGame();
 
 		/**
 		* @brief Changes the height of the grid for next games.
 		* @param height New height,
 		* @return True upon success otherwise called with incorrect value,
 		*/
-		bool ChangeHeight(int height);
+        Q_INVOKABLE bool changeHeight(int height);
 
 		/**
 		* @brief Changes the width of the grid for next games.
 		* @param width New width.
 		* @return True upon success otherwise called with incorrect value.
 		*/
-		bool ChangeWidth(int width);
+        Q_INVOKABLE bool changeWidth(int width);
 
 		/**
 		* @brief Changes the minimum required connected squares.
 		* @param minimum New minimum.
 		* @return True upon success otherwise called with incorrect value.
 		*/
-		bool ChangeMinimum(int minimum);
+        Q_INVOKABLE bool changeMinimum(int minimum);
 
 		/**
 		* @return The minimum height.
 		*/
-		int MinimumHeight();
+        Q_INVOKABLE int minimumHeight();
 
 		/**
 		* @return The minimum width.
 		*/
-		int MinimumWidth();
+        Q_INVOKABLE int minimumWidth();
 
 		/**
 		* @return The minimum required connected squares.
 		*/
-		int MinimumSquares();
+        Q_INVOKABLE int minimumSquares();
 
 		/**
 		 * @return Current Width.
 		*/
-		int GetWidth();
+        Q_INVOKABLE int getWidth();
 
 		/**
 		 * @return Current Height.
 		*/
-		int GetHeight();
+        Q_INVOKABLE int getHeight();
 
 		/**
-		* @return Player, who is playing next round.
+        * @return Int value of the Player, who is playing next round.
 		*/
-		Player NextPlayer();
+        Q_INVOKABLE int nextPlayer();
 
 		/**
 		* @brief Proceeds one round in the Player, who was playing that round.
 		* @param row The row of the square.
 		* @param column The column of the square.
-		* @return Enum value of the Player, who won, otherwise NONE.
+        * @return Int value of the Player, who won, otherwise NONE.
 		*/
-		Player PlayRound(int row, int column);
+        Q_INVOKABLE int playRound(int row, int column);
 
 		/**
 		 * @param row The row of the square.
 		 * @param column The column of the square.
-		 * @return The player occupying the square, if empty then NONE.
+         * @return Int value of the player occupying the square, if empty then NONE.
 		*/
-		Player GetSquare(int row, int column);
+        Q_INVOKABLE int getSquare(int row, int column);
 };
 
 #endif // !TICTACTOEHEADER_H
