@@ -6,6 +6,9 @@
 * Default game size is 3x3 and minimum connected squares is 3.
 * @author Rastislav Budinsky
 */
+#ifndef TICTACTOEHEADER_H
+#define TICTACTOEHEADER_H
+
 #include "Players.h"
 #include <utility>
 #include <vector>
@@ -94,3 +97,5 @@ class Game {
 		*/
 		Player GetSquare(int row, int column);
 };
+
+#endif // !TICTACTOEHEADER_H
