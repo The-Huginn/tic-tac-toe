@@ -123,11 +123,11 @@ int Game::playRound(int row, int column)
 			}
 
 			// check main diagonal
-			if (y >= this->to_win - 1 && x >= this->to_win - 1)
+            if (y >= this->to_win - 1 && x <= this->game[y].size() - this->to_win)
 			{
 				won = true;
 				for (int i = 1; i < this->to_win; i++)
-                    if (this->game[y - i][x - i] != this->game[y - i + 1][x - i + 1] || this->game[y - i][x - i] == PlayerClass::Player::NONE)
+                    if (this->game[y - i][x + i] != this->game[y - i + 1][x + i - 1] || this->game[y - i][x + i] == PlayerClass::Player::NONE)
 						won = false;
 				if (won)
 					break;
