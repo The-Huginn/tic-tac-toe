@@ -16,7 +16,7 @@ class PlayerClass : public QObject
 public:
     explicit PlayerClass(QObject *parent = nullptr): QObject(parent) {}
 
-    enum Player {NONE, CROSS, NOUGHT};
+    enum Player {NONE, CROSS, NOUGHT, DRAW};
     Q_ENUM(Player)
 };
 

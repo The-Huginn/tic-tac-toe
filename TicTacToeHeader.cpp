@@ -148,6 +148,19 @@ int Game::playRound(int row, int column)
 			break;
 	}
 
+    // no winner but may be a draw
+    if (!won)
+    {
+        won = true;
+        for (int y = 0; y < this->game.size(); y++)
+            for (int x = 0; x < this->game[y].size(); x++)
+                if (this->game[y][x] == PlayerClass::Player::NONE)
+                    won = false;
+        if (won)
+            this->current = PlayerClass::Player::DRAW;
+    }
+
+
 	// we dont switch to the next player
 	if (won)
 		return this->current;
