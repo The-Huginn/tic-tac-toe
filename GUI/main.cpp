@@ -8,20 +8,16 @@
 
 int main(int argc, char *argv[])
 {
-    Game tictactoe;
-    tictactoe.playRound(0, 0);
-
-    qDebug() << &tictactoe;
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
     QGuiApplication app(argc, argv);
+    Game tictactoe;
     qmlRegisterSingletonInstance("Game", 1, 0, "Game", &tictactoe);
 
-    qmlRegisterType<PlayerClass>("Player", 1, 0, "Player");
-
+//    qmlRegisterType<PlayerClass>("Player", 1, 0, "Player");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
