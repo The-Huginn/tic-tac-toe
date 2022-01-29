@@ -16,6 +16,13 @@ Rectangle {
         anchors.centerIn: parent
         width: 90
         height: 90
+        source: {
+            if (Game.getSquare(row, column) === 1)
+                return "images/cross.svg"
+            if (Game.getSquare(row, column) === 2)
+                return "images/nought.svg"
+            return ""
+        }
 
         property int row: parent.row
         property int column: parent.column
@@ -30,7 +37,16 @@ Rectangle {
                 if (winner !== 0) {
                     loader.source = "Result.qml"
                 }
+                imageAnimation.start()
             }
+        }
+
+        NumberAnimation {
+            id: imageAnimation
+            target: image
+            property: "opacity"
+            from: 0
+            to: 1
         }
     }
 }
