@@ -18,9 +18,14 @@
 class Game : public QObject
 {
     Q_OBJECT
+
 	private:
+        #define STATS_SIZE 3
+
 		std::pair<int, int> grid;
+        int to_win_next;
 		int to_win;
+        int stats[STATS_SIZE];
         std::vector<std::vector<PlayerClass::Player>> game;
         PlayerClass::Player current;
 
@@ -74,6 +79,21 @@ public slots:
 		*/
         Q_INVOKABLE int minimumSquares();
 
+        /**
+         * @return Current Width or newly set Width if changed.
+        */
+        Q_INVOKABLE int nextWidth();
+
+        /**
+         * @return Current Height or newly set Height if changed.
+        */
+        Q_INVOKABLE int nextHeight();
+
+        /**
+         * @return Current Minimum or newly set Minimum if changed.
+        */
+        Q_INVOKABLE int nextMinimum();
+
 		/**
 		 * @return Current Width.
 		*/
@@ -103,6 +123,21 @@ public slots:
          * @return Int value of the player occupying the square, if empty then NONE.
 		*/
         Q_INVOKABLE int getSquare(int row, int column);
+
+        /**
+         * @return The number of wins by Cross
+         */
+        Q_INVOKABLE int getCrossWins();
+
+        /**
+         * @return The number of wins by Nought
+         */
+        Q_INVOKABLE int getNoughtWins();
+
+        /**
+         * @return The number of draws
+         */
+        Q_INVOKABLE int getDraws();
 };
 
 #endif // !TICTACTOEHEADER_H

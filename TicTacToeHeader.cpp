@@ -4,6 +4,7 @@
 * @author Rastislav Budinsky
 */
 #include "TicTacToeHeader.h"
+#include <algorithm>
 #include <QDebug>
 void Game::callMe(int i)
 {
@@ -14,15 +15,18 @@ Game::Game(QObject *parent) : QObject(parent)
 {
     this->current = PlayerClass::Player::CROSS;
 	this->grid = { 3, 3 };
+    this->to_win_next = 3;
 	this->to_win = 3;
-    this->game.resize(this->grid.second, std::vector<PlayerClass::Player>(this->grid.first, PlayerClass::Player::NONE));
+    std::fill_n(stats, STATS_SIZE, 0);
+    this->game.resize(this->grid.first, std::vector<PlayerClass::Player>(this->grid.second, PlayerClass::Player::NONE));
 }
 
 void Game::newGame()
 {
+    this->to_win = this->to_win_next;
     this->current = PlayerClass::Player::CROSS;
-	this->game.clear();
-    this->game.resize(this->grid.second, std::vector<PlayerClass::Player>(this->grid.first, PlayerClass::Player::NONE));
+    this->game.clear();
+    this->game.resize(this->grid.first, std::vector<PlayerClass::Player>(this->grid.second, PlayerClass::Player::NONE));
 }
 
 bool Game::changeHeight(int height)
@@ -31,6 +35,9 @@ bool Game::changeHeight(int height)
 		return false;
 
 	this->grid.first = height;
+    // We have to change in case we lowered the size
+    this->to_win_next = (this->to_win_next > this->grid.first && this->to_win_next > this->grid.second) ? std::max(this->grid.first, this->grid.second) : this->to_win_next;
+
 	return true;
 }
 
@@ -40,15 +47,18 @@ bool Game::changeWidth(int width)
 		return false;
 
 	this->grid.second = width;
+    // We have to change in case we lowered the size
+    this->to_win_next = (this->to_win_next > this->grid.first && this->to_win_next > this->grid.second) ? std::max(this->grid.first, this->grid.second) : this->to_win_next;
+
 	return true;
 }
 
 bool Game::changeMinimum(int minimum)
 {
-	if (minimum > this->grid.first && minimum > this->grid.second)
+    if (minimum > this->grid.first && minimum > this->grid.second)
 		return false;
 
-	this->to_win = minimum;
+    this->to_win_next = std::max(minimum, 3);   // We want at least 3 connected, otherwise not a game
 	return true;
 }
 
@@ -67,6 +77,21 @@ int Game::minimumWidth()
 int Game::minimumSquares()
 {
     return std::min(minimumHeight(), minimumWidth());
+}
+
+int Game::nextWidth()
+{
+    return this->grid.second;
+}
+
+int Game::nextHeight()
+{
+    return this->grid.first;
+}
+
+int Game::nextMinimum()
+{
+    return this->to_win_next;
 }
 
 int Game::getWidth()
@@ -92,57 +117,57 @@ int Game::playRound(int row, int column)
     if (this->game[row][column] != PlayerClass::Player::NONE)
         return PlayerClass::Player::NONE;
 
-	this->game[row][column] = this->current;
+    this->game[row][column] = this->current;
 
 	// logic is primitive and no optimizations are done, for demonstration purposes only
 	bool won = false;
 	for (int y = 0; y < this->game.size(); y++)
 	{
-		for (int x = 0; x < this->game.size(); x++)
+        for (int x = 0; x < this->game[y].size(); x++)
 		{
-			// check horizontal
-			if (x <= this->game[y].size() - this->to_win)
-			{
-				won = true;
-				for (int i = 1; i < this->to_win; i++)
+            // check horizontal
+            if (x <= (int)this->game[y].size() - this->to_win)
+            {
+                won = true;
+                for (int i = 1; i < this->to_win; i++)
                     if (this->game[y][x + i] != this->game[y][x + i - 1] || this->game[y][x + i] == PlayerClass::Player::NONE)
-						won = false;
-				if (won)
-					break;
-			}
+                        won = false;
+                if (won)
+                    break;
+            }
 
-			// check vertical
-			if (y <= this->game.size() - this->to_win)
-			{
-				won = true;
-				for (int i = 1; i < this->to_win; i++)
+            // check vertical
+            if (y <= (int)this->game.size() - this->to_win)
+            {
+                won = true;
+                for (int i = 1; i < this->to_win; i++)
                     if (this->game[y + i][x] != this->game[y + i - 1][x] || this->game[y + i][x] == PlayerClass::Player::NONE)
-						won = false;
-				if (won)
-					break;
-			}
+                        won = false;
+                if (won)
+                    break;
+            }
 
-			// check main diagonal
-            if (y >= this->to_win - 1 && x <= this->game[y].size() - this->to_win)
-			{
-				won = true;
-				for (int i = 1; i < this->to_win; i++)
-                    if (this->game[y - i][x + i] != this->game[y - i + 1][x + i - 1] || this->game[y - i][x + i] == PlayerClass::Player::NONE)
-						won = false;
-				if (won)
-					break;
-			}
-
-			// check anti-diagonal
-			if (y <= this->game.size() - this->to_win && x <= this->game[y].size() - this->to_win)
-			{
-				won = true;
-				for (int i = 1; i < this->to_win; i++)
+            // check main diagonal
+            if (y <= (int)this->game.size() - this->to_win && x <= (int)this->game[y].size() - this->to_win)
+            {
+                won = true;
+                for (int i = 1; i < this->to_win; i++)
                     if (this->game[y + i][x + i] != this->game[y + i - 1][x + i - 1] || this->game[y + i][x + i] == PlayerClass::Player::NONE)
-						won = false;
-				if (won)
-					break;
-			}
+                        won = false;
+                if (won)
+                    break;
+            }
+
+            // check anti-diagonal
+            if (y >= (int)this->to_win - 1 && x <= (int)this->game[y].size() - this->to_win)
+            {
+                won = true;
+                for (int i = 1; i < this->to_win; i++)
+                    if (this->game[y - i][x + i] != this->game[y - i + 1][x + i - 1] || this->game[y - i][x + i] == PlayerClass::Player::NONE)
+                        won = false;
+                if (won)
+                    break;
+            }
 		}
 		if (won)
 			break;
@@ -163,7 +188,10 @@ int Game::playRound(int row, int column)
 
 	// we dont switch to the next player
 	if (won)
+    {
+        stats[this->current - 1]++;
 		return this->current;
+    }
 
     this->current = this->current == PlayerClass::Player::CROSS ? PlayerClass::Player::NOUGHT : PlayerClass::Player::CROSS;
 
@@ -176,4 +204,19 @@ int Game::getSquare(int row, int column)
         return PlayerClass::Player::NONE;
 
 	return this->game[row][column];
+}
+
+int Game::getCrossWins()
+{
+    return stats[0];
+}
+
+int Game::getNoughtWins()
+{
+    return stats[1];
+}
+
+int Game::getDraws()
+{
+    return stats[2];
 }
