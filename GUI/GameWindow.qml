@@ -6,33 +6,117 @@ import Game 1.0
 
 Rectangle {
     id: gameWindow
-    anchors.fill: parent
+    height: appWindow.height
+    width: appWindow.width
+    color: "transparent"
 
-    Grid {
-        columns: 1
-        rows: 2
-        width: parent.width
-        height: parent.height
+    ColumnLayout {
+        width: children.width
+        height: children.height
 
         Rectangle {
             id: menu
-            width: appWindow.width
+            width: gameWindow.width
             height: 80
-            color: "black"
+            color: "#88000000"
 
-            GridLayout {
-                anchors.fill: parent
-                RoundButton {
-                    Layout.alignment: Qt.AlignCenter
-                    implicitWidth: 100
-                    text: "New Game"
-                    radius: 20
+
+            ColumnLayout {
+                width: menu.width
+                height: menu.height - 10
+
+                RowLayout {
+                    width: menu.width
+                    height: menu.height
+                    Rectangle {
+                        id: crossWinnerRect
+                        Layout.preferredWidth: 1
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "transparent"
+
+                        Text {
+                            anchors.centerIn: parent
+                            font.italic: true
+                            text: qsTr("Cross wins: " + Game.getCrossWins())
+                            color: "yellow"
+                        }
+                    }
+
+                    Rectangle {
+                        id: noughtWinnerRect
+                        Layout.preferredWidth: 1
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "transparent"
+
+                        Text {
+                            anchors.centerIn: parent
+                            font.italic: true
+                            text: qsTr("Nought wins: " + Game.getNoughtWins())
+                            color: "yellow"
+                        }
+                    }
+
+                    Rectangle {
+                        id: drawRect
+                        Layout.preferredWidth: 1
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "transparent"
+
+                        Text {
+                            anchors.centerIn: parent
+                            font.italic: true
+                            text: qsTr("Draws: " + Game.getDraws())
+                            color: "yellow"
+                        }
+                    }
                 }
-                RoundButton {
+
+                RowLayout {
+                    width: menu.width
+                    height: menu.height
                     Layout.alignment: Qt.AlignCenter
-                    text: "Settings"
-                    radius: 20
-                    implicitWidth: 100
+
+                    Rectangle {
+                        id: newGameRect
+                        Layout.preferredWidth: 1
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "transparent"
+
+                        RoundButton {
+                            anchors.centerIn: parent
+                            width: parent.width / 2
+                            text: "New Game"
+                            radius: 20
+
+                            onClicked: {
+                                Game.newGame()
+                                loader.active = false
+                                loader.source = "GameWindow.qml"
+                                loader.active = true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        id: settingsRect
+                        Layout.preferredWidth: 1
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "transparent"
+
+                        RoundButton {
+                            anchors.centerIn: parent
+                            width: parent.width / 2
+                            text: "Settings"
+                            radius: 20
+
+                            onClicked: loader.source = "Settings.qml"
+                        }
+                    }
                 }
             }
         }
