@@ -12,7 +12,7 @@ ApplicationWindow {
     minimumHeight: 450
     visible: true
     title: qsTr("Tic Tac Toe")
-//    color: "#ff0000"
+    color: "red"
 
     Loader {
             id: loader
@@ -29,5 +29,36 @@ ApplicationWindow {
             }
         }
 
-    Component.onCompleted: loader.source = "GameWindow.qml"
+    SequentialAnimation {
+        id: loopAnimation
+        loops: Animation.Infinite
+
+        PropertyAnimation {
+            target: appWindow
+            property: "color"
+            from: "red"
+            to: "green"
+            duration: 3000
+        }
+        PropertyAnimation {
+            target: appWindow
+            property: "color"
+            from: "green"
+            to: "blue"
+            duration: 3000
+        }
+        PropertyAnimation {
+            target: appWindow
+            property: "color"
+            from: "blue"
+            to: "red"
+            duration: 3000
+        }
+    }
+
+
+    Component.onCompleted: {
+        loopAnimation.start()
+        loader.source = "GameWindow.qml"
+    }
 }

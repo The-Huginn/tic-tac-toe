@@ -7,7 +7,7 @@ Rectangle {
     id: result
     height: appWindow.height
     width: appWindow.width
-    color: "#000000"
+    color: "#cc000000"
 
     MouseArea {
         anchors.fill: parent

@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     Game tictactoe;
+
     qmlRegisterSingletonInstance("Game", 1, 0, "Game", &tictactoe);
 
 //    qmlRegisterType<PlayerClass>("Player", 1, 0, "Player");
