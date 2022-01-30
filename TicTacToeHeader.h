@@ -13,9 +13,20 @@
 #include <utility>
 #include <vector>
 
+// We redefine macros if we are in CLI version
+#ifndef CLI
 #include <QObject>
+#else
+#undef Q_INVOKABLE
+#define Q_INVOKABLE
+#undef Q_OBJECT
+#define Q_OBJECT
+#endif
 
-class Game : public QObject
+class Game
+#ifndef CLI
+	: public QObject
+#endif
 {
     Q_OBJECT
 
@@ -29,14 +40,15 @@ class Game : public QObject
         std::vector<std::vector<PlayerClass::Player>> game;
         PlayerClass::Player current;
 
-public slots:
-        void callMe(int);
-
 	public:
 		/**
 		 * @brief Constructor
 		*/
-        Q_INVOKABLE Game(QObject *parent = nullptr);
+#ifndef CLI
+		Q_INVOKABLE Game(QObject* parent = nullptr);
+#else 
+		Game();
+#endif  
 
 		/**
 		* @brief Creates new game of size and squares defined previously, default size is 3x3 and minimum connected squares is 3.

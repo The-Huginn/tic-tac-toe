@@ -5,13 +5,16 @@
 */
 #include "TicTacToeHeader.h"
 #include <algorithm>
-#include <QDebug>
-void Game::callMe(int i)
-{
-    qDebug() << "hello there " << i;
-}
 
-Game::Game(QObject *parent) : QObject(parent)
+#ifndef CLI
+#include <QDebug>
+#endif
+
+#ifndef CLI
+Game::Game(QObject* parent) : QObject(parent)
+#else
+Game::Game()
+#endif
 {
     this->current = PlayerClass::Player::CROSS;
 	this->grid = { 3, 3 };

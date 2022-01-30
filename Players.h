@@ -7,19 +7,29 @@
 #ifndef PLAYERS_H
 #define PLAYERS_H
 
-#include <QObject>
+#define CLI
 
+// Based on macro we change some syntax
+#ifndef CLI 
+#include <QObject>
 class PlayerClass : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-    explicit PlayerClass(QObject *parent = nullptr): QObject(parent) {}
+    explicit PlayerClass(QObject* parent = nullptr) : QObject(parent) {}
 
-    enum Player {NONE, CROSS, NOUGHT, DRAW};
     Q_ENUM(Player)
 };
+#else
+class PlayerClass
+{
+public:
+    explicit PlayerClass() {}
 
-Q_DECLARE_METATYPE(PlayerClass::Player)
+#endif
+
+    enum Player { NONE, NOUGHT, CROSS, DRAW };
+};
 
 #endif // !PLAYERS_H

@@ -11,22 +11,22 @@
 
 void PrintTable(Game& tictactoe)
 {
-	for (int i = 0; i < tictactoe.GetWidth() * 2 + 1; i++)
+	for (int i = 0; i < tictactoe.getWidth() * 2 + 1; i++)
 		std::cout << "-";
 	std::cout << std::endl;
 
-	for (int i = 0; i < tictactoe.GetHeight(); i++)
+	for (int i = 0; i < tictactoe.getHeight(); i++)
 	{
-		for (int j = 0; j < tictactoe.GetWidth(); j++)
+		for (int j = 0; j < tictactoe.getWidth(); j++)
 		{
 			std::cout << "|";
-			switch (tictactoe.GetSquare(i, j))
+			switch (tictactoe.getSquare(i, j))
 			{
-			case CROSS:
+			case PlayerClass::Player::CROSS:
 				std::cout << "X";
 				break;
 
-			case NOUGHT:
+			case PlayerClass::Player::NOUGHT:
 				std::cout << "O";
 				break;
 
@@ -38,7 +38,7 @@ void PrintTable(Game& tictactoe)
 		std::cout << "|\n";
 	}
 
-	for (int i = 0; i < tictactoe.GetWidth() * 2 + 1; i++)
+	for (int i = 0; i < tictactoe.getWidth() * 2 + 1; i++)
 		std::cout << "-";
 	std::cout << std::endl;
 }
@@ -77,7 +77,7 @@ int main()
 			switch (words.back()[0])
 			{
 			case 'n':
-				tictactoe.NewGame();
+				tictactoe.newGame();
 				break;
 
 			case 't':
@@ -96,19 +96,19 @@ int main()
 				switch (words[0][0])
 				{
 				case 'w':
-					tictactoe.ChangeWidth(std::atoi(words[1].c_str()));
+					tictactoe.changeWidth(std::atoi(words[1].c_str()));
 					break;
 
 				case 'h':
-					tictactoe.ChangeHeight(std::atoi(words[1].c_str()));
+					tictactoe.changeHeight(std::atoi(words[1].c_str()));
 					break;
 
 				case 's':
-					tictactoe.ChangeMinimum(std::atoi(words[1].c_str()));
+					tictactoe.changeMinimum(std::atoi(words[1].c_str()));
 					break;
 
 				case 'n':
-					tictactoe.NewGame();
+					tictactoe.newGame();
 					break;
 
 				case 't':
@@ -123,19 +123,19 @@ int main()
 			{
 				if (std::atoi(words[1].c_str()) != 0)
 				{
-					Player winner = tictactoe.PlayRound(std::atoi(words[0].c_str()) - 1, std::atoi(words[1].c_str()) - 1);
-					if (winner != NONE)
+					PlayerClass::Player winner = (PlayerClass::Player) tictactoe.playRound(std::atoi(words[0].c_str()) - 1, std::atoi(words[1].c_str()) - 1);
+					if (winner != PlayerClass::Player::NONE)
 					{
 						system("cls");
 						PrintTable(tictactoe);
 
-						std::cout << "Winner is " << (winner == CROSS ? "CROSS" : "NOUGHT") << "!\n";
-						std::cout << "For restart Press \"r\". To end Press \"t\"\n";
+						std::cout << "Winner is " << (winner == PlayerClass::Player::CROSS ? "CROSS" : "NOUGHT") << "!\n";
+						std::cout << "For restart use command \"r\". To end use command \"t\"\n";
 						while (std::cin >> line)
 						{
 							if (line.compare("r") == 0)
 							{
-								tictactoe.NewGame();
+								tictactoe.newGame();
 								break;
 							}
 							if (line.compare("t") == 0)
