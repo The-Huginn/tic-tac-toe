@@ -1,3 +1,6 @@
+/**
+  \brief Displays game and with the playable grid, shows current score between players and allows to start a new game or open settings
+  */
 import QtQuick 2.3
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.5

@@ -1,3 +1,6 @@
+/**
+  \brief Displays single square of game and contains logic for displaying the square and communicates with the backend
+  */
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.5

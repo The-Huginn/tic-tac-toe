@@ -1,3 +1,6 @@
+/**
+  \brief Application window contains loader for new content and animated background
+  */
 import QtQuick 2.3
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.5

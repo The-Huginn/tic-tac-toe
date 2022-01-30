@@ -1,3 +1,6 @@
+/**
+    \brief Displays final result of a game and upon mouse click starts a new game
+    */
 import QtQuick 2.3
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.5
