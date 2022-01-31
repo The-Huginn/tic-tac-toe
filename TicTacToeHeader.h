@@ -26,11 +26,8 @@ class Game : public QObject
         int to_win_next;
 		int to_win;
         int stats[STATS_SIZE];
-        std::vector<std::vector<PlayerClass::Player>> game;
-        PlayerClass::Player current;
-
-public slots:
-        void callMe(int);
+        std::vector<std::vector<Player>> game;
+        Player current;
 
 	public:
 		/**

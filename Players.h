@@ -7,19 +7,6 @@
 #ifndef PLAYERS_H
 #define PLAYERS_H
 
-#include <QObject>
-
-class PlayerClass : public QObject
-{
-  Q_OBJECT
-
-public:
-    explicit PlayerClass(QObject *parent = nullptr): QObject(parent) {}
-
-    enum Player {NONE, CROSS, NOUGHT, DRAW};
-    Q_ENUM(Player)
-};
-
-Q_DECLARE_METATYPE(PlayerClass::Player)
+enum Player { NONE, CROSS, NOUGHT, DRAW };
 
 #endif // !PLAYERS_H
