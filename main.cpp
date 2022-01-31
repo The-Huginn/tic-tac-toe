@@ -22,11 +22,11 @@ void PrintTable(Game& tictactoe)
 			std::cout << "|";
 			switch (tictactoe.getSquare(i, j))
 			{
-			case PlayerClass::Player::CROSS:
+			case CROSS:
 				std::cout << "X";
 				break;
 
-			case PlayerClass::Player::NOUGHT:
+			case NOUGHT:
 				std::cout << "O";
 				break;
 
@@ -123,13 +123,13 @@ int main()
 			{
 				if (std::atoi(words[1].c_str()) != 0)
 				{
-					PlayerClass::Player winner = (PlayerClass::Player) tictactoe.playRound(std::atoi(words[0].c_str()) - 1, std::atoi(words[1].c_str()) - 1);
-					if (winner != PlayerClass::Player::NONE)
+					Player winner = (Player) tictactoe.playRound(std::atoi(words[0].c_str()) - 1, std::atoi(words[1].c_str()) - 1);
+					if (winner != NONE)
 					{
 						system("cls");
 						PrintTable(tictactoe);
 
-						std::cout << "Winner is " << (winner == PlayerClass::Player::CROSS ? "CROSS" : "NOUGHT") << "!\n";
+						std::cout << "Winner is " << (winner == CROSS ? "CROSS" : "NOUGHT") << "!\n";
 						std::cout << "For restart use command \"r\". To end use command \"t\"\n";
 						while (std::cin >> line)
 						{
