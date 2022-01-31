@@ -102,7 +102,7 @@ class Game : public QObject
         Q_INVOKABLE int getHeight();
 
 		/**
-        * @return Int value of the Player, who is playing next round.
+        * @return Int value of the Player, who is playing next round. See Player.h for reference.
 		*/
         Q_INVOKABLE int nextPlayer();
 
@@ -110,14 +110,14 @@ class Game : public QObject
 		* @brief Proceeds one round in the Player, who was playing that round.
 		* @param row The row of the square.
 		* @param column The column of the square.
-        * @return Int value of the Player, who won, otherwise NONE.
+        * @return Int value of the Player, who won, otherwise 0. See Player.h for reference.
 		*/
         Q_INVOKABLE int playRound(int row, int column);
 
 		/**
 		 * @param row The row of the square.
 		 * @param column The column of the square.
-         * @return Int value of the player occupying the square, if empty then NONE.
+         * @return Int value of the player occupying the square, if empty then 0. See Player.h for reference.
 		*/
         Q_INVOKABLE int getSquare(int row, int column);
 

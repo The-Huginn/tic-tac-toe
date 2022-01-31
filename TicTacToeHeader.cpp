@@ -43,6 +43,7 @@ bool Game::changeWidth(int width)
         return false;
 
     grid.second = width;
+
     // We have to change in case we lowered the size
     to_win_next = (to_win_next > grid.first && to_win_next > grid.second) ? std::max(grid.first, grid.second) : to_win_next;
 
@@ -54,7 +55,9 @@ bool Game::changeMinimum(int minimum)
     if (minimum > grid.first && minimum > grid.second)
         return false;
 
-    to_win_next = std::max(minimum, 3);   // We want at least 3 connected, otherwise not a game
+    // We want at least 3 connected, otherwise not a game
+    to_win_next = std::max(minimum, 3);
+
     return true;
 }
 

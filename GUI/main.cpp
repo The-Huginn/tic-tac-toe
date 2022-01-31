@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Running the main application
+ * @author Rastislav Budinsky
+ */
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -17,8 +22,6 @@ int main(int argc, char *argv[])
     Game tictactoe;
 
     qmlRegisterSingletonInstance("Game", 1, 0, "Game", &tictactoe);
-
-//    qmlRegisterType<PlayerClass>("Player", 1, 0, "Player");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
